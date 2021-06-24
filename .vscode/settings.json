@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "graphql/env/bin/python"
+    "python.pythonPath": "graphql/env/bin/python",
+    "python.envFile": "${workspaceFolder}/.vscode/.env"
 }

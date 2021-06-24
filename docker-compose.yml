@@ -1,26 +1,57 @@
-# This Docker Compose file can be used to quickly bootup Dgraph Zero
-# and Alpha in different Docker containers.
+############
+# Postgres #
+############
 
-# It mounts /hdd/data on the host machine to /dgraph within the
-# container
+version: '3'
 
-version: "3.2"
+# name for volume to store the data throughout the file.
+volumes:
+    postgres-data:
+
 services:
-  zero:
-    image: dgraph/dgraph:latest
-    volumes:
-      - /hdd/dgraph:/dgraph
+  database:
+    container_name: graphql-postgres
+    image: postgres
+    # Create the necessary environment variables.
+    # env_file:
+    #     - .env/development/database
     ports:
-      - 5080:5080
-      - 6080:6080
-    restart: on-failure
-    command: dgraph zero --my=zero:5080
-  alpha:
-    image: dgraph/dgraph:latest
+        - 5432:5432
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
     volumes:
-      - /hdd/dgraph:/dgraph
-    ports:
-      - 8080:8080
-      - 9080:9080
-    restart: on-failure
-    command: dgraph alpha --my=alpha:7080 --zero=zero:5080
+        - postgres-data:/var/lib/postgresql/data
+
+
+##########
+# Dgraph #
+##########
+
+
+# # This Docker Compose file can be used to quickly bootup Dgraph Zero
+# # and Alpha in different Docker containers.
+
+# # It mounts /hdd/data on the host machine to /dgraph within the
+# # container
+
+# version: "3.2"
+# services:
+#   zero:
+#     image: dgraph/dgraph:latest
+#     volumes:
+#       - /hdd/dgraph:/dgraph
+#     ports:
+#       - 5080:5080
+#       - 6080:6080
+#     restart: on-failure
+#     command: dgraph zero --my=zero:5080
+#   alpha:
+#     image: dgraph/dgraph:latest
+#     volumes:
+#       - /hdd/dgraph:/dgraph
+#     ports:
+#       - 8080:8080
+#       - 9080:9080
+#     restart: on-failure
+#     command: dgraph alpha --my=alpha:7080 --zero=zero:5080
